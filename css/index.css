@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-family: "Verdana", "Geneva", "Calibri", sans-serif;
+    width: 100%;
+    height: 100%;
+}
+header {
+    height: 10%;
+    width: 100%;
+    background-color: #222;
+    color: white;
+}
+header a {
+    text-decoration: none;
+    color: #ccc;
+}
+.compiler {
+    font-size: 1.4em;
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: #00f;
+}
+.compiler button {
+    background-color: #f77;
+    color: white;
+}
+.compiler label {
+    display: block;
+}
