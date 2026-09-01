@@ -18,7 +18,13 @@ try {
                 word = words[n2];
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
-                        output += word + " ";
+                        if(word == "\\n"){
+                        	output += "<br>";
+                        }else if(word == "\\t"){
+                        	output += "<span style="margin-left: tab-size;"></span>"
+                        }else{
+                            output += word + " ";
+                        }
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
@@ -37,7 +43,7 @@ try {
                 mode = "None";
             }
         };
-        document.getElementById("outputBox").textContent = output;
+        document.getElementById("outputBox").innerHTML = output;
     });
 }catch(error){
     window.alert("An error has occurred! It says: " + error.message);
