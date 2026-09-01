@@ -43,7 +43,8 @@ try {
                 mode = "None";
             }
         };
-        document.getElementById("outputBox").innerHTML = output;
+        const outputbox = document.getElementById("outputBox");
+        outputbox.innerHTML = output;
     });
 }catch(error){
     window.alert("An error has occurred! It says: " + error.message);
