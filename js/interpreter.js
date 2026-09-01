@@ -11,6 +11,7 @@ try {
         /* Run-time variables */
         let mode = "None";
         let vars = {};
+        let workingWith = "";
         let output = "";
         for(let n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
@@ -20,6 +21,7 @@ try {
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
                         let processed_word = word
+                            .replace(/\{([^{}]+)\}/g, (match, key) => {return vars[key] ?? match})
                             .replace(/\\n/g, "<br>")
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
@@ -28,6 +30,25 @@ try {
                     }else if(mode.startsWith() == "varDeclareName"){
                         let datatype = mode.slice("varDeclareName".length);
                         vars[word] = [datatype, null];
+                    }else if(mode == "varDefineName"){
+                    	try{
+                    		let keys = Object.keys(vars);
+                    		let num = keys.indexOf(word);
+                    		workingWith = num;
+                    		mode = "varDefineEquals";
+                    	}catch(error){
+                    		window.alert("Error!" + error.message);
+                            break;
+                    	}
+                    }else if(mode == "varDefineEquals"){
+                    	if(word != "="){
+                    		window.alert("Error! Unexpected " + word + " in definition of" + Object.values(vars)[workingWith]);
+                            break;
+                    	}else{
+                    		mode = "varDefineValue";
+                    	}
+                    }else if(mode == "varDefineValue"){
+                        // hey future wdc can u work on dis
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
@@ -36,6 +57,10 @@ try {
                         mode = "printMode";
                     }else if(word == "declare"){
                     	mode = "varDeclareDatatype";
+                    }else if(word == "define"){
+                    	mode = "varDefineName";
+                    }else if(word == " "){
+                    	continue;
                     }
                 }else{
                     if(word == "*/"){
