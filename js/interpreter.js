@@ -18,13 +18,10 @@ try {
                 word = words[n2];
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
-                        if(word == "\\n"){
-                        	output += "<br>";
-                        }else if(word == "\\t"){
-                        	output += "<span style='margin-left: 4em;'></span>"
-                        }else{
-                            output += word + " ";
-                        }
+                        let processed_word = word
+                            .replace(/\n/g, "<br>")
+                            .replace(/\t/g, "<span style='margin-left: 4em;'></span>")
+                        output += processed_word + " ";
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
