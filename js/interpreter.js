@@ -21,7 +21,7 @@ try {
                         if(word == "\\n"){
                         	output += "<br>";
                         }else if(word == "\\t"){
-                        	output += "<span style="margin-left: tab-size;"></span>"
+                        	output += "<span style='margin-left: 4em;'></span>"
                         }else{
                             output += word + " ";
                         }
