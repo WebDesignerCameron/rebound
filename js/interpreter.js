@@ -10,6 +10,7 @@ try {
         let word;
         /* Run-time variables */
         let mode = "None";
+        let vars = {};
         let output = "";
         for(let n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
@@ -22,12 +23,19 @@ try {
                             .replace(/\\n/g, "<br>")
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
+                    }else if(mode == "varDeclareDataType"){
+                    	mode = "varDeclareName" + word.title();
+                    }else if(mode.startsWith() == "varDeclareName"){
+                        let datatype = mode.slice("varDeclareName".length);
+                        vars[word] = [datatype, null];
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
                         mode = "multiCommentMode";
                     }else if(word == "note"){
                         mode = "printMode";
+                    }else if(word == "declare"){
+                    	mode = "varDeclareDatatype";
                     }
                 }else{
                     if(word == "*/"){
