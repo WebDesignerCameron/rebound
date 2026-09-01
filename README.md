@@ -17,6 +17,8 @@ multi-line comment */
 note This is printing output.
 note You can include words and numbers.
 note You can include spaces and special characters.
+note Newlines: \n
+note Tabs: \t
 ```
 ## Created
 by WebDesignerCameron
