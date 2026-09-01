@@ -20,7 +20,7 @@ try {
                     if(mode == "printMode"){
                         let processed_word = word
                             .replace(/\n/g, "<br>")
-                            .replace(/\t/g, "<span style='margin-left: 4em;'></span>")
+                            .replace(/\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
                     }else if(word == "//"){
                         mode = "commentMode";
