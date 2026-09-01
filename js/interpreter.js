@@ -9,28 +9,32 @@ try {
         let words;
         let word;
         /* Run-time variables */
-        let printMode = false;
-        let commentMode = false;
+        let mode = "None";
         let output = "";
         for(n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
             words = line.split(" ");
             for(n2 = 0; n2 < words.length; n++){
-                if(!commentMode){
-                    if(printMode){
+                if(mode != "commentMode"){
+                    if(mode == "printMode"){
                         output += word;
                     }else if(word == "//"){
-                        commentMode = true;
+                        mode = "commentMode";
+                    }else if(word == "/*"){
+                        mode = "multiCommentMode";
                     }else if(word == "note"){
-                        printMode = true;
+                        mode = "printMode";
                     }
                 }else{
-                    continue;
+                    if(word == "*/"){
+                        mode = "None";
+                    }
                 }
             };
             /* Reset variables */
-            printMode = false;
-            commentMode = false;
+            if(mode != "multiCommentMode"){
+                mode = "None";
+            }
         };
         document.getElementById("outputBox").textContent = output;
     });
