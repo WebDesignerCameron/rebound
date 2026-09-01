@@ -18,7 +18,7 @@ try {
                 word = words[n2];
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
-                        output += word;
+                        output += word + " ";
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
