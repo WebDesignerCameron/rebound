@@ -16,7 +16,7 @@ try {
             words = line.split(" ");
             for(let n2 = 0; n2 < words.length; n2++){
                 word = words[n2];
-                if(mode != "commentMode"){
+                if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
                         output += word;
                     }else if(word == "//"){
@@ -40,5 +40,5 @@ try {
         document.getElementById("outputBox").textContent = output;
     });
 }catch(error){
-    window.alert("An error has occured! It says: " + error.message);
+    window.alert("An error has occurred! It says: " + error.message);
 }
