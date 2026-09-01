@@ -10,7 +10,8 @@ Single-line: `// This is a comment`
 Multi-line:
  ```text
 /* This is a
-multi-line comment */```
+multi-line comment */
+```
 ### Output
 ```text
 note This is printing output.
