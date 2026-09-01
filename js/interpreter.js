@@ -1,6 +1,6 @@
 /* Interpret a rebound file */
 try {
-    document.getElementById("execute").addEventListener("click", ()=>{
+    document.getElementById("execute").addEventListener("click", async ()=>{
         /* Text and array variables */
         const file = document.querySelector("input[type=file]").files[0];
         const text = await file.text();
@@ -11,10 +11,11 @@ try {
         /* Run-time variables */
         let mode = "None";
         let output = "";
-        for(n1 = 0; n1 < lines.length; n1++){
+        for(let n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
             words = line.split(" ");
-            for(n2 = 0; n2 < words.length; n++){
+            for(let n2 = 0; n2 < words.length; n2++){
+                word = words[n2];
                 if(mode != "commentMode"){
                     if(mode == "printMode"){
                         output += word;
