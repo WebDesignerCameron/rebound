@@ -68,7 +68,7 @@ try {
                         				if(word.startsWith(".")){
                         					word = "0" + word;
                         					currentVarValue[1] = parseFloat(word);
-                        				}else if(word.contains(".")){
+                        				}else if(word.includes(".")){
                         					currentVarValue[1] = parseFloat(word);
                         				}else{
                         					word += ".0";
