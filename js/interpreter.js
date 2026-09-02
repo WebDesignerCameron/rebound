@@ -99,6 +99,14 @@ try {
                         				window.alert("Error! Tried to assign a variable of type " + currentVarType + " to a string!");
                         				break;
                         			}
+                            	}else if(word == "true" || word == "false"){
+                            		// Handle boolean assignments
+                            		if(currentVarType == "bool"){
+                            			currentVarValue[1] = JSON.parse(word);
+                            		}else{
+                            			window.alert("Error! Tried to assign a variable with type " + currentVarType + "to a boolean!");
+                            			break;
+                            		}
                             	}
                             }
                         }
