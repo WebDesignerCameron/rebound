@@ -21,7 +21,15 @@ try {
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
                         let processed_word = word
-                            .replace(/\{([^{}]+)\}/g, (match, key) => {return vars[key][1] ?? match})
+                            .replace(/\{([^{}]+)\}/g, (match, key) => {
+                            	    if (!vars[key]) return match;
+                            	    let value = vars[key][1];
+                            	    let type = vars[key][0];
+                            	    if(type === "float" && typeof value === "number") {
+                            	        return value.toFixed(1);
+                            	    }
+                            	    return value ?? match;
+                            })
                             .replace(/\\n/g, "<br>")
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
