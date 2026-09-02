@@ -11,7 +11,7 @@ try {
         /* Run-time variables */
         let mode = "None";
         let vars = {};
-        let workingWith = "";
+        let workingWith = 0;
         let output = "";
         for(let n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
@@ -26,8 +26,8 @@ try {
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
                     }else if(mode == "varDeclareDataType"){
-                    	mode = "varDeclareName" + word.title();
-                    }else if(mode.startsWith() == "varDeclareName"){
+                    	mode = "varDeclareName" + word;
+                    }else if(mode.startsWith("varDeclareName")){
                         let datatype = mode.slice("varDeclareName".length);
                         vars[word] = [datatype, null];
                     }else if(mode == "varDefineName"){
@@ -45,10 +45,44 @@ try {
                     		window.alert("Error! Unexpected " + word + " in definition of" + Object.values(vars)[workingWith]);
                             break;
                     	}else{
-                    		mode = "varDefineValue";
+                    		mode = "varDefineValueFirstValue";
                     	}
-                    }else if(mode == "varDefineValue"){
-                        // hey future wdc can u work on dis
+                    }else if(mode.startsWith("varDefineValue")){
+                        if(mode.endsWith("FirstValue"){
+                        	if(words.indexOf(word) == words.length - 1){
+                        		if(/^-?\d+(\.\d+)?$/.test(word)){
+                        			let currentVarValue = Object.values(vars)[workingWith];
+                        			let currentVarType = currentVarValue[0];
+                        			if(currentVarType == "int"){
+                        			    if(word.includes(".")){
+                        			    	window.alert("Error! Tried to give an integer a decimal value!");
+                        			    	break;
+                        			    }else{
+                        			    	currentVarValue[1] = parseInt(word);
+                        			    }
+                        			}else if(currentVarType == "float"){
+                        				if(word.startsWith(".")){
+                        					word = "0" + word;
+                        					currentVarValue[1] = parseFloat(word);
+                        				}else if(word.contains(".")){
+                        					currentVarValue[1] = parseFloat(word);
+                        				}else{
+                        					word += ".0";
+                        					currentVarValue[1] = parseFloat(word);
+                        				}
+                        			}else{
+                        			    if(word.contains(".")){
+                        				    window.alert("Error! Tried to assign a variable with type " + currentVarType + " to a decimal!");
+                                        }else{
+                                        	window.alert("Error! Tried to assign a variable with type " + currentVarType + " to an integer!");
+                                        }
+                        				break;
+                        			}
+                        		}else if(word.startsWith("\"") && word.endsWith("\"")){
+                        			// yo future wdc can u handle strings here pls kthxbye
+                        		}
+                        	}
+                        }
                     }else if(word == "//"){
                         mode = "commentMode";
                     }else if(word == "/*"){
