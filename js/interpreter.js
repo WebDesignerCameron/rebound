@@ -21,11 +21,11 @@ try {
                 if(mode != "commentMode" && mode != "multiCommentMode"){
                     if(mode == "printMode"){
                         let processed_word = word
-                            .replace(/\{([^{}]+)\}/g, (match, key) => {return vars[key] ?? match})
+                            .replace(/\{([^{}]+)\}/g, (match, key) => {return vars[key][1] ?? match})
                             .replace(/\\n/g, "<br>")
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
                         output += processed_word + " ";
-                    }else if(mode == "varDeclareDataType"){
+                    }else if(mode == "varDeclareDatatype"){
                     	mode = "varDeclareName" + word;
                     }else if(mode.startsWith("varDeclareName")){
                         let datatype = mode.slice("varDeclareName".length);
@@ -34,6 +34,9 @@ try {
                     	try{
                     		let keys = Object.keys(vars);
                     		let num = keys.indexOf(word);
+                    		if(num == -1){
+                    			throw new Error("Error! Tried to define a non-existent variable " + word + "!")
+                    		}
                     		workingWith = num;
                     		mode = "varDefineEquals";
                     	}catch(error){
@@ -50,8 +53,8 @@ try {
                     }else if(mode.startsWith("varDefineValue")){
                         let currentVarValue = Object.values(vars)[workingWith];
                         let currentVarType = currentVarValue[0];
-                        if(mode.endsWith("FirstValue"){
-                        	if(words.indexOf(word) == words.length - 1){
+                        if(mode.endsWith("FirstValue")){
+                        	if(n2 == words.length - 1){
                         		if(/^-?\d+(\.\d+)?$/.test(word)){
                         		    // Handle integer and decimal assignments
                         			if(currentVarType == "int"){
@@ -72,7 +75,7 @@ try {
                         					currentVarValue[1] = parseFloat(word);
                         				}
                         			}else{
-                        			    if(word.contains(".")){
+                        			    if(word.includes(".")){
                         				    window.alert("Error! Tried to assign a variable with type " + currentVarType + " to a decimal!");
                                         }else{
                                         	window.alert("Error! Tried to assign a variable with type " + currentVarType + " to an integer!");
