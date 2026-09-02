@@ -22,13 +22,13 @@ try {
                     if(mode == "printMode"){
                         let processed_word = word
                             .replace(/\{([^{}]+)\}/g, (match, key) => {
-                            	    if (!vars[key]) return match;
-                            	    let value = vars[key][1];
-                            	    let type = vars[key][0];
-                            	    if(type === "float" && typeof value === "number") {
-                            	        return value.toFixed(1);
-                            	    }
-                            	    return value ?? match;
+                         	    if (!(key in vars)) return match;                   // variable not declared
+                            	const [type, value] = vars[key];
+                            	if (value === null || value === undefined) return match; // not yet assigned
+                            	if (type === "float" && typeof value === "number") {
+                            	    return value.toFixed(1);
+                            	}
+                            	return String(value); // ensures booleans become "true"/"false"
                             })
                             .replace(/\\n/g, "<br>")
                             .replace(/\\t/g, "<span style='margin-left: 4em;'></span>");
