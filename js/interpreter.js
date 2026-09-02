@@ -48,11 +48,12 @@ try {
                     		mode = "varDefineValueFirstValue";
                     	}
                     }else if(mode.startsWith("varDefineValue")){
+                        let currentVarValue = Object.values(vars)[workingWith];
+                        let currentVarType = currentVarValue[0];
                         if(mode.endsWith("FirstValue"){
                         	if(words.indexOf(word) == words.length - 1){
                         		if(/^-?\d+(\.\d+)?$/.test(word)){
-                        			let currentVarValue = Object.values(vars)[workingWith];
-                        			let currentVarType = currentVarValue[0];
+                        		    // Handle integer and decimal assignments
                         			if(currentVarType == "int"){
                         			    if(word.includes(".")){
                         			    	window.alert("Error! Tried to give an integer a decimal value!");
@@ -79,9 +80,16 @@ try {
                         				break;
                         			}
                         		}else if(word.startsWith("\"") && word.endsWith("\"")){
-                        			// yo future wdc can u handle strings here pls kthxbye
-                        		}
-                        	}
+                        			// Handle string assignments
+                        			if(currentVarType == "str"){
+                        				word = word.slice(1, -1);
+                        				currentVarValue[1] = word;
+                        			}else{
+                        				window.alert("Error! Tried to assign a variable of type " + currentVarType + " to a string!");
+                        				break;
+                        			}
+                            	}
+                            }
                         }
                     }else if(word == "//"){
                         mode = "commentMode";
