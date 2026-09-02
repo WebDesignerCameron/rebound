@@ -38,20 +38,21 @@ header a {
 .compiler button {
     background-color: #f77;
     color: white;
-    margin: 5px;
+    margin: 80px;
     text-align: center;
     padding: 20px;
     font-size: 1.4em;
     font-weight: 500;
     border-radius: 10px;
-    transform: scale(5);
+    transform: scale(3);
 }
 .compiler label {
     display: block;
     margin: 30px;
 }
 .compiler input {
-	transform: scale(5);
+	transform: scale(3);
+	margin: 80px;
 }
 #outputBox {
 	background-color: #00f;
