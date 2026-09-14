@@ -40,12 +40,10 @@ try {
                         vars[word] = [datatype, null];
                     }else if(mode == "varDefineName"){
                     	try{
-                    		let keys = Object.keys(vars);
-                    		let num = keys.indexOf(word);
-                    		if(num == -1){
+                    		if(!(word in vars)){
                     			throw new Error("Error! Tried to define a non-existent variable " + word + "!")
                     		}
-                    		workingWith = num;
+                    		workingWith = word;
                     		mode = "varDefineEquals";
                     	}catch(error){
                     		window.alert("Error!" + error.message);
@@ -59,7 +57,7 @@ try {
                     		mode = "varDefineValueFirstValue";
                     	}
                     }else if(mode.startsWith("varDefineValue")){
-                        let currentVarValue = Object.values(vars)[workingWith];
+                        let currentVarValue = vars[workingWith];
                         let currentVarType = currentVarValue[0];
                         if(mode.endsWith("FirstValue")){
                         	if(n2 == words.length - 1){
@@ -108,7 +106,24 @@ try {
                             			break;
                             		}
                             	}
+                            }else{
+                            	mode = "varDefineValueOperand";
                             }
+                        }else if(mode.endsWith("Operand")){
+                        	if(word == "+"){
+                        		mode = "varDefineValueSecondAdd";
+                        	}else if(word == "-"){
+                        		mode = "varDefineValueSecondMinus";
+                        	}else if(word == "*"){
+                        		mode = "varDefineValueSecondTimes";
+                        	}else if(word == "/"){
+                        		mode = "varDefineValueSecondDivide";
+                        	}else if(word == "%"){
+                        		mode = "varDefineValueSecondModulo";
+                        	}else{
+                        		window.alert("Error! Invalid operator " + word + "!");
+                        		break;
+                        	}
                         }
                     }else if(word == "//"){
                         mode = "commentMode";
