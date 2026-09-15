@@ -13,6 +13,10 @@ try {
         let vars = {};
         let workingWith = 0;
         let output = "";
+        let val;
+        let valType;
+        let currentVarValue;
+        let currentVarType;
         for(let n1 = 0; n1 < lines.length; n1++){
             line = lines[n1];
             words = line.split(" ");
@@ -57,8 +61,8 @@ try {
                     		mode = "varDefineValueFirstValue";
                     	}
                     }else if(mode.startsWith("varDefineValue")){
-                        let currentVarValue = vars[workingWith];
-                        let currentVarType = currentVarValue[0];
+                        currentVarValue = vars[workingWith];
+                        currentVarType = currentVarValue[0];
                         if(mode.endsWith("FirstValue")){
                         	if(n2 == words.length - 1){
                         		if(/^-?\d+(\.\d+)?$/.test(word)){
@@ -107,6 +111,22 @@ try {
                             		}
                             	}
                             }else{
+                                if(word.isdigit()){
+                                	val = parseInt(word);
+                                	valType = "int";
+                                }else if(word.replace(/./g, "").isdigit()){
+                                	val = parseFloat(word);
+                                	valType = "float";
+                                }else if(word.startsWith("\"") && word.endsWith("\"")){
+                                	val = word.slice(1, -1);
+                                	valType = "str";
+                                }else if(word == "true" || word == "false"){
+                                	val = JSON.parse(word);
+                                	valType = "bool";
+                                }else if(word in vars){
+                                	val = vars["word"][1];
+                                	valType = vars["word"][0];
+                                }
                             	mode = "varDefineValueOperand";
                             }
                         }else if(mode.endsWith("Operand")){
@@ -123,6 +143,45 @@ try {
                         	}else{
                         		window.alert("Error! Invalid operator " + word + "!");
                         		break;
+                        	}
+                        }else if(mode.startsWith("varDefineValueSecond")){
+                        	if(mode.endsWith("Add")){
+                        		switch (valType) {
+                        			case "int":
+                        			    currentVarValue[1] = parseInt(word) + val;
+                       				    break;
+                       				case "float":
+                       				    currentVarValue[1] = parseFloat(word) + val;
+                       				    break;
+                       				case "str":
+                       				    currentVarValue[1] = word.split(1, -1) + val;
+                       				    break;
+                       				case "bool":
+                       				    currentVarValue[1] = JSON.parse(word) && val;
+                       				    break;
+                       				default:
+                       				    window.alert("Error! Somehow something type " + valType + " showed up. Don't ask me - you are the one who wrote the code.");
+                       				    break;
+                        		}
+                        	}else if(mode.endsWith("Minus")){
+                        		switch(valType) {
+                        			case "int":
+                        		        currentVarValue[1] = val - parseInt(word);
+                        		        break;
+                        		    case "float":
+                        		        currentVarValue[1] = val - parseFloat(word);
+                        		        break;
+                        		    case "str":
+                        		        let regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+                        		        currentVarValue[1] = val.split(1, -1).replace(regex, "");
+                        		        break;
+                        		    case "bool":
+                        		        currentVarValue[1] = val && !word;
+                        		        break;
+                        		    default:
+                        		        window.alert("Error! Somehow something type " + valType + " showed up.");
+                        		        break;
+                        		}
                         	}
                         }
                     }else if(word == "//"){
