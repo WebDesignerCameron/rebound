@@ -146,7 +146,7 @@ try {
                         	}
                         }else if(mode.startsWith("varDefineValueSecond")){
                             if(word in vars){
-                            	word = vars[word];
+                            	word = vars[word][1];
                             }
                         	if(mode.endsWith("Add")){
                         		switch (valType) {
