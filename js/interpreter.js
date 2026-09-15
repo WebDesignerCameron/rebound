@@ -145,6 +145,9 @@ try {
                         		break;
                         	}
                         }else if(mode.startsWith("varDefineValueSecond")){
+                            if(word in vars){
+                            	word = vars[word];
+                            }
                         	if(mode.endsWith("Add")){
                         		switch (valType) {
                         			case "int":
