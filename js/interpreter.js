@@ -111,10 +111,10 @@ try {
                             		}
                             	}
                             }else{
-                                if(word.isdigit()){
+                                if(/^\d+$/.test(word)){
                                 	val = parseInt(word);
                                 	valType = "int";
-                                }else if(word.replace(/./g, "").isdigit()){
+                                }else if(/^\d+$/.test(word.replace(/./g, ""))){
                                 	val = parseFloat(word);
                                 	valType = "float";
                                 }else if(word.startsWith("\"") && word.endsWith("\"")){
@@ -124,8 +124,8 @@ try {
                                 	val = JSON.parse(word);
                                 	valType = "bool";
                                 }else if(word in vars){
-                                	val = vars["word"][1];
-                                	valType = vars["word"][0];
+                                	val = vars[word][1];
+                                	valType = vars[word][0];
                                 }
                             	mode = "varDefineValueOperand";
                             }
@@ -176,10 +176,28 @@ try {
                         		        currentVarValue[1] = val.split(1, -1).replace(regex, "");
                         		        break;
                         		    case "bool":
-                        		        currentVarValue[1] = val && !word;
+                        		        currentVarValue[1] = val && !(JSON.parse(word));
                         		        break;
                         		    default:
                         		        window.alert("Error! Somehow something type " + valType + " showed up.");
+                        		        break;
+                        		}
+                        	}else if(mode.endsWith("Times")){
+                        		switch(valType){
+                        			case "int":
+                        			    currentVarValue[1] = val * parseInt(word);
+                        			    break;
+                        			case "float":
+                        			    currentVarValue[1] = val * parseFloat(word);
+                        			    break;
+                        			case "str":
+                        		        window.alert("Error! Tried to multiply a string!");
+                        		        break;
+                        		    case "bool":
+                        		        currentVarValue[1] = val || JSON.parse(word);
+                        		        break;
+                        		    default:
+                        		        window.alert("Error! Encountered something type " + valType + "!");
                         		        break;
                         		}
                         	}
